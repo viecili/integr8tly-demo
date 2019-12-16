@@ -1,0 +1,158 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Claims API",
+    "version": "1.0.0"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/claims": {
+      "get": {
+        "summary": "List All Claims",
+        "description": "Gets a list of all `Claim` entities.",
+        "operationId": "getClaims",
+        "responses": {
+          "200": {
+            "description": "Successful response - returns an array of `Claim` entities.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Claim"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a Claim",
+        "description": "Creates a new instance of a `Claim`.",
+        "operationId": "createClaim",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "A new `Claim` to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Claim"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful response."
+          }
+        }
+      }
+    },
+    "/claims/{claimId}": {
+      "get": {
+        "summary": "Get a Claim",
+        "description": "Gets the details of a single instance of a `Claim`.",
+        "operationId": "getClaim",
+        "responses": {
+          "200": {
+            "description": "Successful response - returns a single `Claim`.",
+            "schema": {
+              "$ref": "#/definitions/Claim"
+            },
+            "examples": {
+              "application/json": "{\n \"claimId\" : \"6ba9a03b-be6b-4471-a451-a0423182ee40\",\n \"type\" : \"HIP\",\n \"amount\" : 400,\n \"patient\" : {\n  \"name\" : \"Darryl Kerrigan\"\n  },\n \"notes\" : \"jousting sticks accident\"\n}"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a Claim",
+        "description": "Updates an existing `Claim`.",
+        "operationId": "updateClaim",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated `Claim` information.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Claim"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful response."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a Claim",
+        "description": "Deletes an existing `Claim`.",
+        "operationId": "deleteClaim",
+        "responses": {
+          "204": {
+            "description": "Successful response."
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "claimId",
+          "in": "path",
+          "description": "A unique identifier for a `Claim`.",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "Claim": {
+      "title": "Root Type for Claim",
+      "description": "the claim",
+      "required": [
+        "claimId",
+        "type",
+        "amount",
+        "patient"
+      ],
+      "type": "object",
+      "properties": {
+        "claimId": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "amount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "patient": {
+          "$ref": "#/definitions/Patient"
+        }
+      },
+      "example": "{\n \"claimId\" : \"6ba9a03b-be6b-4471-a451-a0423182ee40\",\n \"type\" : \"HIP\",\n \"amount\" : 100,\n \"notes\" : \"a generic claim\"\n }"
+    },
+    "Patient": {
+      "title": "Root Type for Patient",
+      "description": "the patient",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "example": "{\n    \"name\": \"John Doe\"\n}"
+    }
+  }
+}
